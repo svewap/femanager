@@ -11,11 +11,20 @@ class UpperViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param string $string
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('string', 'string', '', true, '');
+    }
+
+    /**
      * @return string
      */
-    public function render(string $string = ''): string
+    public function render(): string
     {
-        return ucfirst($string);
+        return ucfirst($this->arguments['string']);
     }
 }

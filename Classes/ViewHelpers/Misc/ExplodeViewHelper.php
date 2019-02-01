@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace In2code\Femanager\ViewHelpers\Misc;
 
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
@@ -12,15 +13,24 @@ class ExplodeViewHelper extends AbstractViewHelper
 {
 
     /**
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('string', 'string', 'Any list (e.g. "a,b,c,d")', true, '');
+        $this->registerArgument('separator', 'string', 'Separator sign (e.g. ",")', false, ',');
+        $this->registerArgument('trim', 'boolean', 'Should be trimmed?', false, true);
+    }
+
+    /**
      * View helper to explode a list
      *
-     * @param string $string Any list (e.g. "a,b,c,d")
-     * @param string $separator Separator sign (e.g. ",")
-     * @param boolean $trim Should be trimmed?
      * @return array
      */
-    public function render($string = '', $separator = ',', $trim = true)
+    public function render(): array
     {
-        return $trim ? GeneralUtility::trimExplode($separator, $string, true) : explode($separator, $string);
+        return $this->arguments['trim'] ? GeneralUtility::trimExplode($this->arguments['separator'], $this->arguments['string'], true) : explode($this->arguments['separator'], $this->arguments['string']);
     }
 }

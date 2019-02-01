@@ -16,16 +16,27 @@ class IsRequiredFieldViewHelper extends AbstractValidationViewHelper
      */
     protected $configurationManager;
 
+
+    /**
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('fieldName', 'string', '', true);
+    }
+
+
     /**
      * Check if this field is a required field
      *
-     * @param string $fieldName
      * @return bool
      */
-    public function render($fieldName)
+    public function render()
     {
         $settings = $this->getSettingsConfiguration();
-        return !empty($settings[$this->getControllerName()][$this->getValidationName()][$fieldName]['required']);
+        return !empty($settings[$this->getControllerName()][$this->getValidationName()][$this->arguments['fieldName']]['required']);
     }
 
     /**

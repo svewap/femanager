@@ -12,15 +12,24 @@ class BackendEditLinkViewHelper extends AbstractViewHelper
 {
 
     /**
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('tableName', 'string', '', true);
+        $this->registerArgument('identifier', 'int', '', true);
+        $this->registerArgument('addReturnUrl', 'boolean', '', true, true);
+    }
+
+    /**
      * Get an URI for backend edit
      *
-     * @param string $tableName
-     * @param int $identifier
-     * @param bool $addReturnUrl
      * @return string
      */
-    public function render(string $tableName, int $identifier, bool $addReturnUrl = true): string
+    public function render(): string
     {
-        return BackendUtility::getBackendEditUri($tableName, $identifier, $addReturnUrl);
+        return BackendUtility::getBackendEditUri($this->arguments['tableName'], $this->arguments['identifier'], $this->arguments['addReturnUrl']);
     }
 }

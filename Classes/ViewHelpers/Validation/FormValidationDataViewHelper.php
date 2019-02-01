@@ -23,27 +23,37 @@ class FormValidationDataViewHelper extends AbstractValidationViewHelper
 		'uniqueInPage'
     ];
 
+
+    /**
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('settings', 'array', 'TypoScript', true);
+        $this->registerArgument('fieldName', 'string', 'Fieldname', true);
+        $this->registerArgument('additionalAttributes', 'array', 'AdditionalAttributes', false, []);
+    }
+
     /**
      * Set javascript validation data for input fields
      *
-     * @param array $settings TypoScript
-     * @param string $fieldName Fieldname
-     * @param array $additionalAttributes AdditionalAttributes
      * @return array
      */
-    public function render($settings, $fieldName, $additionalAttributes = [])
+    public function render()
     {
-        if ($settings[$this->getControllerName()]['validation']['_enable']['client'] === '1') {
-            $validationString = $this->getValidationString($settings, $fieldName);
+        if ($this->arguments['settings'][$this->getControllerName()]['validation']['_enable']['client'] === '1') {
+            $validationString = $this->getValidationString($this->arguments['settings'], $this->arguments['fieldName']);
             if (!empty($validationString)) {
-                if (!empty($additionalAttributes['data-validation'])) {
-                    $additionalAttributes['data-validation'] .= ',' . $validationString;
+                if (!empty($this->arguments['additionalAttributes']['data-validation'])) {
+                    $this->arguments['additionalAttributes']['data-validation'] .= ',' . $validationString;
                 } else {
-                    $additionalAttributes['data-validation'] = $validationString;
+                    $this->arguments['additionalAttributes']['data-validation'] = $validationString;
                 }
             }
         }
-        return $additionalAttributes;
+        return $this->arguments['additionalAttributes'];
     }
 
     /**

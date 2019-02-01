@@ -21,7 +21,7 @@ abstract class AbstractValidationViewHelper extends AbstractViewHelper
 
         // special case for second step in invitation
         if ($this->getControllerName() === 'invitation' &&
-            $this->controllerContext->getRequest()->getControllerActionName() === 'edit') {
+            $this->renderingContext->getControllerAction() === 'edit') {
             $validationName = 'validationEdit';
         }
 
@@ -35,6 +35,6 @@ abstract class AbstractValidationViewHelper extends AbstractViewHelper
      */
     protected function getControllerName()
     {
-        return strtolower($this->controllerContext->getRequest()->getControllerName());
+        return strtolower($this->renderingContext->getControllerName());
     }
 }

@@ -12,14 +12,23 @@ class BackendNewLinkViewHelper extends AbstractViewHelper
 {
 
     /**
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('tableName', 'string', '', true);
+        $this->registerArgument('addReturnUrl', 'boolean', '', true, true);
+    }
+
+    /**
      * Get an URI for new records in backend
      *
-     * @param string $tableName
-     * @param bool $addReturnUrl
      * @return string
      */
-    public function render(string $tableName, bool $addReturnUrl = true): string
+    public function render(): string
     {
-        return BackendUtility::getBackendNewUri($tableName, BackendUtility::getPageIdentifier(), $addReturnUrl);
+        return BackendUtility::getBackendNewUri($this->arguments['tableName'], BackendUtility::getPageIdentifier(), $this->arguments['addReturnUrl']);
     }
 }

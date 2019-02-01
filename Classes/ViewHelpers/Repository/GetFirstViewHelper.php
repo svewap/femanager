@@ -11,13 +11,25 @@ class GetFirstViewHelper extends AbstractViewHelper
 {
 
     /**
+     * Initialize the arguments.
+     *
+     * @return void
+     * @api
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('objects', 'mixed', '', true);
+    }
+
+    /**
      * Call getFirst() method of object storage
      *
-     * @param object $objects
      * @return object|null
      */
-    public function render($objects)
+    public function render()
     {
+        $objects = $this->arguments['objects'];
         if (method_exists($objects, 'getFirst')) {
             return $objects->getFirst();
         }

@@ -26,18 +26,29 @@ class RequestViewHelper extends AbstractViewHelper
      */
     protected $testVariables = null;
 
+
+    /**
+     * Initialize
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+        $this->registerArgument('parameter', 'string', 'like tx_ext_pi1|list|field', false, '');
+        $this->registerArgument('htmlspecialchars', 'boolean', 'Enable/Disable htmlspecialchars', false, true);
+    }
+
+
     /**
      * Get a GET or POST parameter
      *
-     * @param string $parameter like tx_ext_pi1|list|field
-     * @param bool $htmlspecialchars Enable/Disable htmlspecialchars
      * @return string
      */
-    public function render(string $parameter = '', bool $htmlspecialchars = true)
+    public function render()
     {
-        $parts = $this->init($parameter);
+        $parts = $this->init($this->arguments['parameter']);
         $result = $this->getVariableFromDepth($parts);
-        if ($htmlspecialchars === true) {
+        if ($this->arguments['htmlspecialchars'] === true) {
             if (is_string($result)) {
                 $result = htmlspecialchars($result);
             }
